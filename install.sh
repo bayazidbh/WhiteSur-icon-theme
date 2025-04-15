@@ -56,11 +56,11 @@ install() {
 
   if [[ ${color} == '' ]]; then
     mkdir -p                                                                                 "${THEME_DIR}"/status
-    cp -r "${SRC_DIR}"/src/{actions,animations,apps,categories,devices,emblems,mimes,places,preferences} "${THEME_DIR}"
+    cp -r "${SRC_DIR}"/src/{actions,animations,apps,categories,devices,emotes,emblems,mimes,places,preferences} "${THEME_DIR}"
     cp -r "${SRC_DIR}"/src/status/{16,22,24,32,symbolic}                                     "${THEME_DIR}"/status
 
     if [[ ${black:-} == 'true' ]]; then
-      sed -i "s/#ffffff/#363636/g" "${THEME_DIR}"/status/{16,22,24}/*
+      sed -i "s/#f2f2f2/#363636/g" "${THEME_DIR}"/status/{16,22,24}/*
     fi
 
     if [[ ${bold:-} == 'true' ]]; then
@@ -81,21 +81,21 @@ install() {
 
     rm -rf "${THEME_DIR}"/places/scalable/user-trash{'','-full'}-dark.svg
 
-    cp -r "${SRC_DIR}"/links/{actions,apps,categories,devices,emblems,mimes,places,status,preferences} "${THEME_DIR}"
+    cp -r "${SRC_DIR}"/links/{actions,apps,categories,devices,emotes,emblems,mimes,places,status,preferences} "${THEME_DIR}"
     ln -s "${THEME_DIR}"/preferences/32 "${THEME_DIR}"/preferences/22
   fi
 
   if [[ ${color} == '-light' ]]; then
     mkdir -p                                                                                 "${THEME_DIR}"/status
-    cp -r "${SRC_DIR}"/src/status/{16,22,24}                                                 "${THEME_DIR}"/status
+    cp -r ${SRC_DIR}/src/status/{16,22,24,32}                                                "${THEME_DIR}"/status
 
     if [[ ${bold:-} == 'true' ]]; then
       cp -r "${SRC_DIR}"/bold/status/{16,22,24}                                              "${THEME_DIR}"/status
     fi
 
     # Change icon color for light theme
-    sed -i "s/#ffffff/#363636/g" "${THEME_DIR}"/status/{16,22,24}/*
-    cp -r "${SRC_DIR}"/links/status/{16,22,24}                                               "${THEME_DIR}"/status
+    sed -i "s/#f2f2f2/#363636/g" "${THEME_DIR}"/status/{16,22,24,32}/*
+    cp -r "${SRC_DIR}"/links/status/{16,22,24,32}                                            "${THEME_DIR}"/status
 
     cd ${dest}
     ln -s ../${name}${theme}/actions ${name}${theme}-light/actions
@@ -103,11 +103,11 @@ install() {
     ln -s ../${name}${theme}/apps ${name}${theme}-light/apps
     ln -s ../${name}${theme}/categories ${name}${theme}-light/categories
     ln -s ../${name}${theme}/devices ${name}${theme}-light/devices
+    ln -s ../${name}${theme}/emotes ${name}${theme}-light/emotes
     ln -s ../${name}${theme}/emblems ${name}${theme}-light/emblems
     ln -s ../${name}${theme}/mimes ${name}${theme}-light/mimes
     ln -s ../${name}${theme}/places ${name}${theme}-light/places
     ln -s ../${name}${theme}/preferences ${name}${theme}-light/preferences
-    ln -s ../../${name}${theme}/status/32 ${name}${theme}-light/status/32
     ln -s ../../${name}${theme}/status/symbolic ${name}${theme}-light/status/symbolic
   fi
 
@@ -116,7 +116,7 @@ install() {
 
     cp -r "${SRC_DIR}"/src/actions                                                           "${THEME_DIR}"
     cp -r "${SRC_DIR}"/src/apps/{22,32,symbolic}                                             "${THEME_DIR}"/apps
-    cp -r "${SRC_DIR}"/src/categories/symbolic                                               "${THEME_DIR}"/categories
+    cp -r "${SRC_DIR}"/src/categories/{22,symbolic}                                          "${THEME_DIR}"/categories
     cp -r "${SRC_DIR}"/src/emblems/symbolic                                                  "${THEME_DIR}"/emblems
     cp -r "${SRC_DIR}"/src/mimes/symbolic                                                    "${THEME_DIR}"/mimes
     cp -r "${SRC_DIR}"/src/devices/{16,22,24,32,symbolic}                                    "${THEME_DIR}"/devices
@@ -147,21 +147,23 @@ install() {
     mv -f "${THEME_DIR}"/places/scalable/user-trash-full-dark.svg "${THEME_DIR}"/places/scalable/user-trash-full.svg
 
     # Change icon color for dark theme
-    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/{actions,devices,places}/{16,22,24}/*
-    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/apps/{22,32}/*
-    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/{actions,devices}/32/*
-    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/{actions,apps,categories,emblems,devices,mimes,places,status}/symbolic/*
+    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/{actions,devices,places}/{16,22,24}/*.svg
+    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/apps/{22,32}/*.svg
+    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/categories/22/*.svg
+    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/{actions,devices}/32/*.svg
+    sed -i "s/#363636/#dedede/g" "${THEME_DIR}"/{actions,apps,categories,emblems,devices,mimes,places,status}/symbolic/*.svg
 
     cp -r "${SRC_DIR}"/links/actions/{16,22,24,32,symbolic}                                  "${THEME_DIR}"/actions
     cp -r "${SRC_DIR}"/links/devices/{16,22,24,32,symbolic}                                  "${THEME_DIR}"/devices
     cp -r "${SRC_DIR}"/links/places/{16,22,24,scalable,symbolic}                             "${THEME_DIR}"/places
-    cp -r "${SRC_DIR}"/links/status/symbolic                                                 "${THEME_DIR}"/status
-    cp -r "${SRC_DIR}"/links/apps/symbolic                                                   "${THEME_DIR}"/apps
-    cp -r "${SRC_DIR}"/links/categories/symbolic                                             "${THEME_DIR}"/categories
+    cp -r "${SRC_DIR}"/links/apps/{22,symbolic}                                              "${THEME_DIR}"/apps
+    cp -r "${SRC_DIR}"/links/categories/{22,symbolic}                                        "${THEME_DIR}"/categories
     cp -r "${SRC_DIR}"/links/mimes/symbolic                                                  "${THEME_DIR}"/mimes
+    cp -r "${SRC_DIR}"/links/status/symbolic                                                 "${THEME_DIR}"/status
 
     cd ${dest}
     ln -s ../${name}${theme}/animations ${name}${theme}-dark/animations
+    ln -s ../${name}${theme}/emotes ${name}${theme}-dark/emotes
     ln -s ../${name}${theme}/preferences ${name}${theme}-dark/preferences
     ln -s ../../${name}${theme}/categories/32 ${name}${theme}-dark/categories/32
     ln -s ../../${name}${theme}/emblems/16 ${name}${theme}-dark/emblems/16
@@ -185,6 +187,7 @@ install() {
     ln -sf apps apps@2x
     ln -sf categories categories@2x
     ln -sf devices devices@2x
+    ln -sf emotes emotes@2x
     ln -sf emblems emblems@2x
     ln -sf mimes mimes@2x
     ln -sf places places@2x
